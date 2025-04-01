@@ -6,21 +6,18 @@
 
 | Name | GitHub Username | Contribution |
 | ----- | ----- | ----- |
-| Cheyanne Atole | @ | Research, data preprocessing, model building |
-| Claire Cao | @cc459 | Research, data preprocessing, model building |
-| Bijju Marharjan | @bijyeta-maharjan | Research, data preprocessing, model building |
-| Kathy Yang | @katherinehyang | Research, data preprocessing, model building |
+| Cheyanne Atole | @ | Exploratory research, data preprocessing, model building, model finetuning |
+| Claire Cao | @cc459 | Exploratory research, data preprocessing, model building, model finetuning |
+| Bijju Marharjan | @bijyeta-maharjan | Exploratory research, data preprocessing, model building, model finetuning |
+| Kathy Yang | @katherinehyang | Exploratory research, data preprocessing, model building, model finetuning |
 
 
 ---
 
 ## **🎯 Project Highlights**
 
-**Example:**
-
-* Convolutional Neural Network (CNN) using transfer learning (EfficientNet-B0) to classify dermatological images by skin condition
+* Convolutional Neural Network (CNN) using transfer learning (ResNet50) to classify dermatological images by skin condition
 * Achieved an F1 score of 0.20064 and a ranking of 48 on the final Kaggle Leaderboard
-* Used \[explainability tool\] to interpret model decisions
 * Implemented image augmentation and random sampling to optimize results within compute constraints
 
 🔗 [Equitable AI for Dermatology | Kaggle Competition Page](https://www.kaggle.com/competitions/bttai-ajl-2025/overview)
@@ -32,8 +29,8 @@
 1. **Clone the repository**
 
     ```bash
-    git clone https://github.com/[INSERT_REPO_URL]
-    cd [REPO_NAME]
+    git clone https://github.com/cc459/ajl-team-15
+    cd ajl-team-15
     ```
 
 2. **Install dependencies**
@@ -55,17 +52,11 @@
 
 5. **Run the notebook**
 
-    Open and run the main Jupyter notebook (e.g., `AJL_Team_15.ipynb`). Note that our current setup is designed to work within a shared Google drive. You may need to adjust specific setup commands or directory pathways accordingly.
+    Open and run the main Jupyter notebook (`AJL_Team_15.ipynb`). Note that our current setup is designed to work within a shared Google drive. You may need to adjust specific setup commands or directory pathways accordingly.
 
 ---
 
 ## **🏗️ Project Overview**
-
-**Describe:**
-
-* The Kaggle competition and its connection to the Break Through Tech AI Program
-* The objective of the challenge
-* The real-world significance of the problem and the potential impact of your work
 
 This project is part of the **Break Through Tech AI Program**, which connects students with real-world machine learning problems.
 
@@ -82,38 +73,32 @@ We used the provided **dermatological image dataset** from Kaggle, which include
 **Data Exploration & Preprocessing:**
 - Analyzed class distribution and skin tone representation
 - Applied data augmentation (horizontal flips, random crops, brightness adjustment)
-- Resized all images to 224x224
+- Resized all images to a standard shape
 - Addressed class imbalance via weighted sampling and augmentation
+- Filtered data by quality (e.g., diagonistic, characteristic)
 
 **Challenges & Assumptions:**
 - Limited samples for certain skin tones
 - Variability in image quality and lighting
 - Assumed accurate skin tone labels from the dataset metadata
 
-**Potential visualizations to include:**
-* Plots, charts, heatmaps, feature visualizations, sample dataset images
-
 ---
 
 ## **🧠 Model Development**
 
-**Model:** EfficientNet-B0 pretrained on ImageNet, fine-tuned for classification  
+**Model:** ResNet50 pretrained on ImageNet, fine-tuned for classification
 
 **Approach:**
 - Used transfer learning to reduce training time and resource needs
-- Freeze initial layers, fine-tuned final layers
-- Used stratified split for train/val/test sets (80/10/10)
+- Added custom dense and dropout layers on top of the ResNet base
+- Trained using early stopping and model checkpoint callbacks
+- Filtered training data by diagnostic quality for better consistency
 - Evaluation metric: Macro F1-score
 
 **Hyperparameter Tuning:**
-- Learning rate search via grid search
-- Epochs: 
-- Batch size: 
-
-**(As applicable):**
-* Model(s) used (e.g., CNN with transfer learning, regression models)
-* Feature selection and Hyperparameter tuning strategies
-* Training setup (e.g., % of data for training/validation, evaluation metric, baseline performance)
+- Optimizer: Adam with learning rate tuning
+- Epochs: ~15–30 depending on early stopping
+- Batch size: ~32
 
 ---
 
@@ -124,38 +109,20 @@ We used the provided **dermatological image dataset** from Kaggle, which include
 - Kaggle Ranking: 48
 
 **Fairness Evaluation:**
-
-**Visualizations:**
-
-**(As applicable):**
-
-* Performance metrics (e.g., Kaggle Leaderboard score, F1-score)
-* How your model performed overall
-* How your model performed across different skin tones (AJL)
-* Insights from evaluating model fairness (AJL)
-
-**Potential visualizations to include:**
-
-* Confusion matrix, precision-recall curve, feature importance plot, prediction distribution, outputs from fairness or explainability tools
+- Evaluated performance across disaggregated skin tone groups
+- Observed discrepancies in prediction accuracy across tones
 
 ---
 
 ## **🖼️ Impact Narrative**
 
-**Answer the relevant questions below based on your competition:**
-
-**AJL challenge:**
-
 As Dr. Randi mentioned in her challenge overview, “Through poetry, art, and storytelling, you can reach others who might not know enough to understand what’s happening with the machine learning model or data visualizations, but might still be heavily impacted by this kind of work.”
-As you answer the questions below, consider using not only text, but also illustrations, annotated visualizations, poetry, or other creative techniques to make your work accessible to a wider audience.
-Check out [this guide](https://drive.google.com/file/d/1kYKaVNR\_l7Abx2kebs3AdDi6TlPviC3q/view) from the Algorithmic Justice League for inspiration!
 
-1. What steps did you take to address [model fairness](https://haas.berkeley.edu/wp-content/uploads/What-is-fairness_-EGAL2.pdf)? (e.g., leveraging data augmentation techniques to account for training dataset imbalances; using a validation set to assess model performance across different skin tones)
+**Model Fairness:**
 
-- Applied data augmentation to boost samples for underrepresented skin tones  
-- Assessed validation performance across skin tone groups using disaggregated metrics  
+We applied data augmentation to increase samples for underrepresented skin tones. We also assessed validation performance across skin tone groups using disaggregated metrics. In addition, we filtered high-quality images to reduce noise and potential bias.
 
-2. What broader impact could your work have?
+**Broader Impact:**
 
 Our work contributes to raising awareness about the inequities embedded in medical datasets and how AI models can inadvertently propagate these biases. By highlighting disparities in performance, we can advocate for better data collection, representation, and auditing practices in AI for healthcare.
 
@@ -163,16 +130,7 @@ We envision a future where dermatological diagnostic tools are **built equitably
 
 ---
 
-
----
-
 ## **🚀 Next Steps & Future Improvements**
-
-**Address the following:**
-
-* What are some of the limitations of your model?
-* What would you do differently with more time/resources?
-* What additional datasets or techniques would you explore?
 
 **Limitations:**
 - Limited dataset size for darker skin tones as well as accurately classified images affected model fairness  
@@ -180,9 +138,9 @@ We envision a future where dermatological diagnostic tools are **built equitably
 
 **Future Work:**
 - Fine-tune on external datasets with better diversity  
-- Integrate metadata (e.g., age, gender) into multimodal models  
-- Use techniques like re-weighted loss functions or adversarial training for fairness  
-
+- Integrate more metadata into multimodal models  
+- Use techniques such as adversarial training to improve fairness 
+  
 ---
 
 ## **📄 References & Additional Resources**
@@ -205,3 +163,4 @@ We envision a future where dermatological diagnostic tools are **built equitably
 - **Algorithmic Fairness in Practice**  
   [Google Colab: Algorithmic Fairness](https://colab.research.google.com/drive/1l5qSIbH-Gxj-ctTzVkfLLx6UU8mXJ45L?usp=share_link)
 ---
+We would like to acknowledge and thank our amazing TA Ishita for her help throughout this process!
